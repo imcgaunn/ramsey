@@ -10,7 +10,7 @@
 (defn valid-rules? 
   "Ensures that the ruleset allocates a maximum of 100% of income" 
   [rules]
-  (<= 100 (reduce + (vals rules))))
+  (<= (reduce + (vals rules)) 100))
 
 (defn resources-per-category 
   "Computes allocation of resources per category based on rule"
@@ -19,4 +19,4 @@
         (map (fn [rule] (* income (/ (second rule) 100))) 
              rules)]
     (zipmap (keys rules) amnts)))
- 
+
