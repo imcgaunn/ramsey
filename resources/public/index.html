@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="stylesheets/main.css">
+  </head>
+  <body>
+    <h1> This is a test page </h1>
+    <form class="pure-form pure-form-stacked" id="categories-form">
+      <fieldset>
+        <legend> Enter Budget Categories / Percentages </legend>
+
+        <input type="text" placeholder="Savings">
+        <input type="text" placeholder="20%">
+
+      </fieldset>
+      <fieldset>
+
+        <input type="text" placeholder="Expenses">
+        <input type="text" placeholder="50%">
+
+      </fieldset>
+
+      <fieldset>
+
+        <input type="text" placeholder="Charity">
+        <input type="text" placeholder="5%">
+
+      </fieldset>
+
+      <button type="submit" class="pure-button pure-button-primary">Calculate Budget</button>
+
+
+    </form>
+
+    <script type="text/javascript">
+      window.onload = function() {
+        var cat_form = document.getElementById("categories-form");
+        cat_form.addEventListener("submit", function(e) {
+          var xhttp = new XMLHttpRequest();
+
+          // response handler
+          xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+              console.log("the request got a response");
+              console.log(xhttp.responseText);
+            }
+          }
+          xhttp.open("POST", "compute-budget", true);
+          xhttp.send();
+          return false;
+        });
+      }
+    </script>
+  </body>
+</html>
