@@ -20,3 +20,8 @@ and give suggestions about spending within those categories.
 - Program calculates monthly income based on paystub information
 - Program computes resources per category based on user supplied rule
 - Interface displays in a grid amount of money per-category
+
+## Running
+
+- Start server with `lein ring server-headless`
+- Run tests with `lein run-tests`
