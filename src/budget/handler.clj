@@ -6,7 +6,9 @@
 
 (defroutes app-routes
   (GET "/" [] (resp/redirect "/index.html"))
-  (GET "/compute-budget" [] "Reponse text")
+  (POST "/compute-budget" req
+    (let [params (:params req)]
+      (str params)))
   (route/not-found "Not Found"))
 
 (def app
