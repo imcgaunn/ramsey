@@ -2,54 +2,37 @@
   <head>
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
     <link rel="stylesheet" href="stylesheets/main.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.js"></script>
   </head>
   <body>
-    <h1> This is a test page </h1>
-    <form class="pure-form pure-form-stacked" id="categories-form">
-      <fieldset>
-        <legend> Enter Budget Categories / Percentages </legend>
+    <h1>Budget Calculator</h1>
+    <form class="pure-form pure-form-stacked" id="categories-form" name="categories-form">
+      <legend> Enter Budget Categories / Percentages </legend>
 
-        <input type="text" placeholder="Savings">
-        <input type="text" placeholder="20%">
-
-      </fieldset>
       <fieldset>
 
-        <input type="text" placeholder="Expenses">
-        <input type="text" placeholder="50%">
+        <input name="cat1-title" type="text" placeholder="Savings">
+        <input name="cat1-val" type="text" placeholder="20%">
 
       </fieldset>
 
       <fieldset>
 
-        <input type="text" placeholder="Charity">
-        <input type="text" placeholder="5%">
+        <input name="cat2-title" type="text" placeholder="Expenses">
+        <input name="cat2-val" type="text" placeholder="50%">
 
       </fieldset>
 
-      <button type="submit" class="pure-button pure-button-primary">Calculate Budget</button>
+      <fieldset>
 
+        <input name="cat3-title" type="text" placeholder="Spending">
+        <input name="cat3-val" type="text" placeholder="5%">
 
+      </fieldset>
+
+      <button id="budget-button" type="submit" class="pure-button pure-button-primary">Calculate Budget</button>
+      <button id="add-cat-button" class="pure-button pure-button-secondary"> Add Category </button>
     </form>
-
-    <script type="text/javascript">
-      window.onload = function() {
-        var cat_form = document.getElementById("categories-form");
-        cat_form.addEventListener("submit", function(e) {
-          var xhttp = new XMLHttpRequest();
-
-          // response handler
-          xhttp.onreadystatechange = function() {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-              console.log("the request got a response");
-              console.log(xhttp.responseText);
-            }
-          }
-          xhttp.open("POST", "compute-budget", true);
-          xhttp.send();
-          return false;
-        });
-      }
-    </script>
+    <script type="text/javascript" src="javascripts/forms.js"></script>
   </body>
 </html>
