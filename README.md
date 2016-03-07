@@ -24,4 +24,4 @@ and give suggestions about spending within those categories.
 ## Running
 
 - Start server with `lein ring server-headless`
-- Run tests with `lein run-tests`
+- Run tests with `lein test`
