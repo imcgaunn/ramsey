@@ -19,10 +19,11 @@
   (let [title-kws (filter #(is-title-kw %) (keys form-mapping))]
     (into {}
           (for [title-kw title-kws]
-            (let [val-kw (title-kw->val-kw title-kw)
+            (let [val-kw    (title-kw->val-kw title-kw)
                   title-str (title-kw form-mapping)
-                  val-str (val-kw form-mapping)]
-              {title-str val-str})))))
+                  val-str   (val-kw form-mapping)
+                  val-num   (read-string val-str)]
+              {title-str val-num})))))
 
 (defn monthly-income 
   "computes pay per month based on a pay amount and an interval in weeks"
@@ -42,3 +43,8 @@
              rules)]
     (zipmap (keys rules) amnts)))
 
+(defn form-data->computed-budget
+  "Takes a monthly income and a form-mapping and builds a budget mapping"
+  [form-mapping income]
+  (let [bmapping (create-budget-mapping form-mapping)]
+    (resources-per-category income bmapping)))

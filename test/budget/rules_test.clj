@@ -31,8 +31,16 @@
                :cat3-title "Title 3", :cat3-val "40"})
 
 (deftest t-create-budget-mapping
-  (is (= (create-budget-mapping test-map)
-         { "Title 1" "30",
-           "Title 2" "40",
-           "Title 3" "40"})))
-  
+  (is (= (create-budget-mapping test-title-val-map)
+         { "Title 1" 30,
+           "Title 2" 40,
+           "Title 3" 40})))
+
+(deftest t-form-data->computed-budget
+  (testing "computing budget from income and form data"
+    (is (= (resources-per-category 4000
+                                   {"Title 1" 30,
+                                    "Title 2" 40,
+                                    "Title 3" 40})
+           (form-data->computed-budget test-title-val-map 4000)))))
+
