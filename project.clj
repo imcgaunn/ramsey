@@ -6,6 +6,7 @@
                  [compojure "1.4.0"]
                  [ring/ring-defaults "0.1.5"]
                  [yesql "0.5.2"]
+                 [org.clojure/data.json "0.2.6"]
                  [tupelo "0.1.64"]
                  [org.postgresql/postgresql "9.4-1201-jdbc41"]]
   :plugins [[lein-ring "0.9.7"]]
