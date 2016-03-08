@@ -17,13 +17,15 @@
    backend rules"
   [form-mapping]
   (let [title-kws (filter #(is-title-kw %) (keys form-mapping))]
-    (into {}
-          (for [title-kw title-kws]
-            (let [val-kw    (title-kw->val-kw title-kw)
-                  title-str (title-kw form-mapping)
-                  val-str   (val-kw form-mapping)
-                  val-num   (read-string val-str)]
-              {title-str val-num})))))
+    (assoc
+      (into {}
+            (for [title-kw title-kws]
+              (let [val-kw    (title-kw->val-kw title-kw)
+                    title-str (title-kw form-mapping)
+                    val-str   (val-kw form-mapping)
+                    val-num   (read-string val-str)]
+                {title-str val-num})))
+      :income (:income form-mapping))))
 
 (defn monthly-income 
   "computes pay per month based on a pay amount and an interval in weeks"
@@ -35,16 +37,27 @@
   [rules]
   (<= (reduce + (vals rules)) 100))
 
-(defn resources-per-category 
+(defn resources-per-category
   "Computes allocation of resources per category based on rule"
-  [income rules]
-  (let [amnts 
-        (map (fn [rule] (* income (/ (second rule) 100))) 
-             rules)]
-    (zipmap (keys rules) amnts)))
+  [rules]
+  (let [income     (:income rules)
+                   ;; keys that aren't the income key
+        categories (keys (dissoc rules :income))]
+    (into {}
+      (for [cat categories]
+        (let [percentage (get rules cat)]
+          {cat (* income (/ percentage 100))})))))
 
 (defn form-data->computed-budget
   "Takes a monthly income and a form-mapping and builds a budget mapping"
-  [form-mapping income]
+  [form-mapping]
   (let [bmapping (create-budget-mapping form-mapping)]
-    (resources-per-category income bmapping)))
+    (resources-per-category bmapping)))
+
+(form-data->computed-budget tmap)
+
+(def tmap {:income 4000, :cat1-title "Savings", :cat1-val "30", :cat2-title "Expenses", :cat2-val "50", :cat3-title "Spending", :cat3-val "30"})
+
+(into {}
+  (filter #(not (= (name (key %)) "income")) tmap))
+

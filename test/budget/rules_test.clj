@@ -26,21 +26,24 @@
     (is (= :cat1-val (title-kw->val-kw :cat1-title)))
     (is (= :cat2-val (title-kw->val-kw :cat2-title)))))
 
-(def test-title-val-map {:cat1-title "Title 1", :cat1-val "30",
-               :cat2-title "Title 2", :cat2-val "40",
-               :cat3-title "Title 3", :cat3-val "40"})
+(def test-title-val-map 
+  {:cat1-title "Title 1", :cat1-val "30",
+   :cat2-title "Title 2", :cat2-val "40",
+   :cat3-title "Title 3", :cat3-val "40",
+   :income 4000})
 
 (deftest t-create-budget-mapping
   (is (= (create-budget-mapping test-title-val-map)
          { "Title 1" 30,
            "Title 2" 40,
-           "Title 3" 40})))
+           "Title 3" 40,
+          :income 4000})))
 
 (deftest t-form-data->computed-budget
   (testing "computing budget from income and form data"
-    (is (= (resources-per-category 4000
-                                   {"Title 1" 30,
+    (is (= (resources-per-category {"Title 1" 30,
                                     "Title 2" 40,
-                                    "Title 3" 40})
-           (form-data->computed-budget test-title-val-map 4000)))))
+                                    "Title 3" 40
+                                    :income 4000})
+           (form-data->computed-budget test-title-val-map)))))
 
