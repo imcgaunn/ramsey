@@ -1,12 +1,37 @@
 $(document).ready(function() {
 
+  var test_data = {"savings":800,"expenses":2000,"spending":1200};
+
+  function buildResultsTable(data) {
+    // builds a table from budget JSON returned from server
+    // TODO: should probably check that the data is good
+
+    var table = $("<table id=\"results-table\"></table>")
+                .attr('class', 'pure-table pure-table-striped');
+    table.append($("<thead>")
+                 .append($("<tr>"))
+                 .append($("<th>").text("Category"))
+                 .append($("<th>").text("Amount ($USD)")));
+
+    $.each(data, function(index, value) {
+      table.append($("<tr>")
+        .append($("<td>").text(index))
+        .append($("<td>").text(value)));
+    });
+
+    $("#results-container").append(table);
+  }
+
   // setup category information submit handler
   $("#budget-button").click(function(e) {
     e.preventDefault(); // don't submit the form
     $.post("compute-budget", $("#categories-form").serialize())
       .done(function(data) {
         // TODO: On response, this should create a new column with the budget  
-        console.log(data);
+        console.log("data: " + data);
+        console.log("type: " + typeof(data));
+        // create a results table
+        buildResultsTable(JSON.parse(data));
       });
   });
 
@@ -27,7 +52,7 @@ $(document).ready(function() {
                           .attr('placeholder', 'Category Name');
     var new_cat_val = $("<input>")
                         .attr('name', 'cat' + new_cat_num + '-val')
-                        .attr('type', 'text')
+                        .attr('type', 'number')
                         .attr('placeholder', 'Percentage');
 
     // put new input fields into fieldset
