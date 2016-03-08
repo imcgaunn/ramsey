@@ -3,10 +3,6 @@
             [tupelo.core :refer [it->]]))
 
 (def weeks-per-month 4)
-(def test-map {:cat1-title "Title 1", :cat1-val "30",
-               :cat2-title "Title 2", :cat2-val "40",
-               :cat3-title "Title 3", :cat3-val "40"})
-
 ;; determines if keyword is a *-title keyword
 (defn is-title-kw [arg] (re-matches #".*-title" (name arg)))
 
