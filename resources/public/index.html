@@ -5,39 +5,49 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.js"></script>
   </head>
   <body>
-    <h1>Budget Calculator</h1>
-    <form class="pure-form pure-form-aligned" id="categories-form" name="categories-form">
-      <legend> Enter Budget Categories / Percentages </legend>
+    <div class="pure-g" id="container">
+      <div class="pure-u-1-2" id="inputs-container">
+        <h1>Enter Information</h1>
+        <form class="pure-form pure-form-aligned" id="categories-form" name="categories-form">
+          <legend> Enter Budget Categories / Percentages </legend>
 
-      <fieldset>
-        <label for="income">Monthly Income</label>
-        <input name="income" type="number" placeholder="Income">
-      </fieldset>
+          <fieldset>
+            <label for="income">Monthly Income</label>
+            <input name="income" type="number" placeholder="Income">
+          </fieldset>
 
-      <fieldset>
+          <fieldset>
 
-        <input name="cat1-title" type="text" placeholder="Savings">
-        <input name="cat1-val" type="text" placeholder="20%">
+            <input name="cat1-title" type="text" placeholder="Savings">
+            <input name="cat1-val" type="number" placeholder="20%">
 
-      </fieldset>
+          </fieldset>
 
-      <fieldset>
+          <fieldset>
 
-        <input name="cat2-title" type="text" placeholder="Expenses">
-        <input name="cat2-val" type="text" placeholder="50%">
+            <input name="cat2-title" type="text" placeholder="Expenses">
+            <input name="cat2-val" type="number" placeholder="50%">
 
-      </fieldset>
+          </fieldset>
 
-      <fieldset>
+          <fieldset>
 
-        <input name="cat3-title" type="text" placeholder="Spending">
-        <input name="cat3-val" type="text" placeholder="5%">
+            <input name="cat3-title" type="text" placeholder="Spending">
+            <input name="cat3-val" type="number" placeholder="5%">
 
-      </fieldset>
+          </fieldset>
 
-      <button id="budget-button" type="submit" class="pure-button pure-button-primary">Calculate Budget</button>
-      <button id="add-cat-button" class="pure-button pure-button-secondary"> Add Category </button>
-    </form>
+          <button id="budget-button" type="submit" class="pure-button pure-button-primary">Calculate Budget</button>
+          <button id="add-cat-button" class="pure-button pure-button-secondary"> Add Category </button>
+        </form>
+      </div>
+
+      <div class="pure-u-1-2" id="results-container">
+        <h1> Results </h1>
+        <!-- Dynamically generated content -->
+      </div>
+
+    </div>
     <script type="text/javascript" src="javascripts/forms.js"></script>
   </body>
 </html>
