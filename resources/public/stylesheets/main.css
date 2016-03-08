@@ -1,4 +1,4 @@
-body {
-  margin: 15px;
-  width: 900px;
+#container {
+  width: 950px;
+  margin: auto;
 }
