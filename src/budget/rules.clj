@@ -25,7 +25,7 @@
                     val-str   (val-kw form-mapping)
                     val-num   (read-string val-str)]
                 {title-str val-num})))
-      :income (:income form-mapping))))
+      :income (read-string (:income form-mapping)))))
 
 (defn monthly-income 
   "computes pay per month based on a pay amount and an interval in weeks"
@@ -53,11 +53,4 @@
   [form-mapping]
   (let [bmapping (create-budget-mapping form-mapping)]
     (resources-per-category bmapping)))
-
-(form-data->computed-budget tmap)
-
-(def tmap {:income 4000, :cat1-title "Savings", :cat1-val "30", :cat2-title "Expenses", :cat2-val "50", :cat3-title "Spending", :cat3-val "30"})
-
-(into {}
-  (filter #(not (= (name (key %)) "income")) tmap))
 
