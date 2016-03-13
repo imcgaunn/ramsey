@@ -10,7 +10,10 @@
 (defroutes app-routes
   (GET "/" [] (resp/redirect "/index.html"))
   (POST "/compute-budget" req 
-        (json/write-str (rules/form-data->computed-budget (:params req))))
+        (try
+          (json/write-str (rules/form-data->computed-budget (:params req)))
+          (catch AssertionError e
+            {:status 400 :body "invalid budget rules"})))
   (route/not-found "Not Found"))
 
 (def app
