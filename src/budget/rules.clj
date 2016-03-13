@@ -21,8 +21,8 @@
       (into {}
             (for [title-kw title-kws]
               (let [val-kw    (title-kw->val-kw title-kw)
-                    title-str (title-kw form-mapping)
-                    val-str   (val-kw form-mapping)
+                    title-str (get form-mapping title-kw)
+                    val-str   (get form-mapping val-kw)
                     val-num   (read-string val-str)]
                 {title-str val-num})))
       :income (read-string (:income form-mapping)))))
@@ -40,6 +40,8 @@
 (defn resources-per-category
   "Computes allocation of resources per category based on rule"
   [rules]
+  ;; make sure user supplied a valid rule 
+  (assert (valid-rules? (dissoc rules :income)) "Invalid ruleset")
   (let [income     (:income rules)
                    ;; keys that aren't the income key
         categories (keys (dissoc rules :income))]
