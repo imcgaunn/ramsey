@@ -40,10 +40,9 @@
 (defn resources-per-category
   "Computes allocation of resources per category based on rule"
   [rules]
-  ;; make sure user supplied a valid rule 
+  ;; make sure user supplied a valid rule
   (assert (valid-rules? (dissoc rules :income)) "Invalid ruleset")
   (let [income     (:income rules)
-                   ;; keys that aren't the income key
         categories (keys (dissoc rules :income))]
     (into {}
       (for [cat categories]
