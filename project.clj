@@ -8,7 +8,7 @@
                  [yesql "0.5.2"]
                  [org.clojure/data.json "0.2.6"]
                  [tupelo "0.1.64"]
-                 [org.postgresql/postgresql "9.4-1201-jdbc41"]]
+                 [org.xerial/sqlite-jdbc "3.7.2"]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler budget.handler/app}
   :profiles

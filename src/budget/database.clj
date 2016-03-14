@@ -4,9 +4,9 @@
             [clojure.data.json :as json]
             [budget.db-util :as util]))
 
-(def db-spec {:classname "org.postgresql.Driver"
-              :subprotocol "postgresql"
-              :subname "//localhost:5432/imcgaunn"
+(def db-spec {:classname "org.sqlite.JDBC"
+              :subprotocol "sqlite"
+              :subname "./resources/budgets.db"
               :user "imcgaunn"})
 
 (defquery create-budget-db! "queries/create_budget_db.sql"
