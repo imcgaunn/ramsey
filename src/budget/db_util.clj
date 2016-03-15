@@ -18,3 +18,9 @@
   "returns a java.util.Date object representing today's date"
   []
   (new java.util.Date))
+
+(defn year-date-format
+  "takes a date object and produces a string of the month and year"
+  [date]
+  (let [date-formatter (new java.text.SimpleDateFormat "MM-yyyy")]
+    (.format date-formatter date)))
