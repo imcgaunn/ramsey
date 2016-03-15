@@ -6,7 +6,7 @@
 
 (def db-spec {:classname "org.sqlite.JDBC"
               :subprotocol "sqlite"
-              :subname "./resources/budgets.db"
+              :subname "resources/db/budgets.db"
               :user "imcgaunn"})
 
 (defquery create-budget-db! "queries/create_budget_db.sql"
