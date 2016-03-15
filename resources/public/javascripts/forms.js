@@ -1,5 +1,29 @@
 $(document).ready(function() {
 
+  function getBudgetInfo() {
+    var URL_fields = location.hash.substr(1).split('/');
+    var month = URL_fields[1];
+    var year  = URL_fields[3];
+
+    console.log('month ' + month);
+    console.log('year '  + year);
+
+    // get budget for specified month/year from server
+    var serverGetURL = '/month/' + month + '/year/' + year;
+    $.get(serverGetURL, function(data) { console.log(data); });
+  }
+
+  if (!location.hash) {
+    // load default view: get budget page for current month / year
+    var curDate = new Date();
+    var curMonth = curDate.getMonth() + 1;
+    var curYear  = curDate.getFullYear();
+    location.hash = '#month/' + curMonth + '/year/' + curYear;
+  }
+
+  // set up hashchange listener
+  $(window).on('hashchange', getBudgetInfo)
+
   var test_data = {"savings":800,"expenses":2000,"spending":1200};
 
   function buildResultsTable(data) {
