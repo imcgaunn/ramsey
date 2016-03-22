@@ -22,7 +22,8 @@
 (defqueries "queries/get_budgets.sql"
   {:connection db-spec})
 
-(defn monthly-budget [month]
+(defn monthly-budget 
   "Queries database for budget info from parameter month"
-  (str "Not Implemented"))
-
+  [month year]
+  (let [db-record (get-budget-by-date {:mdate (str month "-" year)})]
+    (json/write-str (first db-record))))
