@@ -7,6 +7,9 @@ $(document).ready(function() {
   function buildResultsTable(data) {
     // builds a table from budget JSON returned from server
     // TODO: should probably check that the data is good
+    
+    // if there is already a results table, remove it.
+    $("#results-table").remove();
 
     var table = $("<table id=\"results-table\"></table>")
                 .attr('class', 'pure-table pure-table-striped');
@@ -22,6 +25,69 @@ $(document).ready(function() {
     });
 
     $("#results-container").append(table);
+  }
+
+  function addBlankCategory() {
+    var cnum_regexp = /cat(\d+).*/;
+
+    // check if there are already other categories
+    var lastInputName = $("#categories-form input").last().attr("name");
+    var lastCatNum = cnum_regexp.exec(lastInputName);
+    var newCatNum = 1;
+
+    // if there are existing categories
+    if (lastCatNum !== null) {
+      newCatNum = parseInt(lastCatNum[1]) + 1;
+    }
+
+    var newCatTitle = $("<input>")
+                        .attr('name', 'cat' + newCatNum + '-title')
+                        .attr('type', 'text')
+                        .attr('placeholder', 'Category Name');
+    var newCatVal = $("<input>")
+                      .attr('name', 'cat' + newCatNum + '-val')
+                      .attr('type', 'number')
+                      .attr('placeholder', 'Percentage');
+
+    // put new input fields into fieldset
+    var newFieldset = $("<fieldset>");
+    newFieldset.append(newCatTitle);
+    newFieldset.append(newCatVal);
+
+    // add new input fields to document
+    $("#budget-button").before(newFieldset);
+  }
+
+  function updateForm(data) {
+    var income = data.income;
+    var categories = JSON.parse(data.categories);
+
+    var categoryPercentageMapping = {};
+
+    // figure out corresponding percentages of categories from income
+    // and values
+    $.each(categories, function(index, value) {
+      var percentage = (value / income) * 100;
+      categoryPercentageMapping[index] = percentage;
+    });
+
+    console.log(categoryPercentageMapping);
+
+    // set income field
+    $("#categories-form input[name='income']").val(income);
+
+    // delete every fieldset after the first one
+    $("#categories-form fieldset").slice(1).remove();
+    $.each(categoryPercentageMapping, function(key, value) {
+      // add a new category.
+      addBlankCategory();
+      var lastInputs   = $("#categories-form input[name^='cat']").slice(-2);
+      var lastCatNameInput    = lastInputs[0];
+      var lastCatValueInput   = lastInputs[1];
+      lastCatNameInput.value  = key;
+      lastCatValueInput.value = value;
+
+    });
   }
 
   // utility function returns object containing fields 'month' and 'year'
@@ -76,6 +142,8 @@ $(document).ready(function() {
 
         // build the actual table
         buildResultsTable(categories);
+        // update the form to reflect information currently in DB
+        updateForm(response);
 
       })
       .error(function(e) {
@@ -103,44 +171,14 @@ $(document).ready(function() {
     console.log(formData);
     $.post("compute-budget", formData)
       .done(function(data) {
-        // TODO: On response, this should create a new column with the budget  
-        console.log("data: " + data);
-        console.log("type: " + typeof(data));
-        var curDate = getCurDate();
-
-        location.hash = '#month/' + curDate.month + '/year/' + curDate.year;
-        // manually trigger hashchange to make sure data is retrieved from server
         $(window).trigger('hashchange'); 
-
       });
   });
 
   // add new categories handler
   $("#add-cat-button").click(function(e) {
     e.preventDefault(); // don't submit the form
-    var cnum_regexp = /cat(\d+).*/;
-    var last_cat_name = $("#categories-form input").last().attr("name");
-
-    // extracts the first match group, the category number
-    var last_cat_num = parseInt(cnum_regexp.exec(last_cat_name)[1]);
-    var new_cat_num = last_cat_num + 1;
-
-    // create new form input fields
-    var new_cat_title = $("<input>")
-                          .attr('name', 'cat' + new_cat_num + '-title')
-                          .attr('type', 'text')
-                          .attr('placeholder', 'Category Name');
-    var new_cat_val = $("<input>")
-                        .attr('name', 'cat' + new_cat_num + '-val')
-                        .attr('type', 'number')
-                        .attr('placeholder', 'Percentage');
-
-    // put new input fields into fieldset
-    var new_fieldset = $("<fieldset>");
-    new_fieldset.append(new_cat_title);
-    new_fieldset.append(new_cat_val);
-
-    // add new input fields to document
+    addBlankCategory();
     $("#budget-button").before(new_fieldset);
   });
 
